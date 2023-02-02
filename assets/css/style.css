@@ -1,3 +1,8 @@
+.flex-col {
+    display: flex;
+    align-items: center;
+}
+
 header {
     background: linear-gradient(60deg, rgb(107, 154, 255), rgb(20, 20, 173), rgb(99, 18, 131))
 }
@@ -45,3 +50,8 @@ header {
     font-weight: bold;
 }
 /* forecast */
+#forecast .col {
+    background-color: rgb(42, 42, 78);
+    color: white; 
+    border-radius: 10px;
+}

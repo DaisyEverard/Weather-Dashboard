@@ -61,14 +61,19 @@ const forecastFunc = (lat, lon) => {
             iconURL = `http://openweathermap.org/img/w/${icon}.png`;
        
             // add new data to page
-            let newCol = forecastRow.append(`<div class="colum col flex-col"></div>`);
-            let title = newCol.append('<h4>').html(date);
+            let newCol = $(`<div class="col col-xs-12 col-md-6 col-lg-2 flex-col"></div>`);
+
+            console.log(newCol)
+            let title = $('<h4>').text(date);
+            console.log(title)
             title.append('<img>').attr('src', iconURL);
-            
+            console.log(title); 
+
             newCol.append(title);
-            newCol.append('<p>').html(`<span>Temperature:</span> ${temperature}°C`);
+            newCol.append($('<p>').html(`<span>Temperature:</span> ${temperature}°C`));
             newCol.append($('<p>').html(`<span>Wind Speed:</span> ${windSpeed}mph`));
             newCol.append($('<p>').html(`<span>Humidity:</span> ${humidity}`));
+            forecastRow.append(newCol); 
         }
     })
 }

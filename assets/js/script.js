@@ -15,11 +15,20 @@ const todayWeatherFunc = (lat, lon, cityName) => {
         url: weatherNowURL,
         method: 'GET'
     }).then((response) => {
-console.log(response)
     const currentDate = moment().format('DD/MM/YY'); 
+    const weatherIcon = response['weather'][0]['icon'];
+    const temperature = (response['main']['temp'] - 273.1).toFixed(1); 
+    const humidity = response['main']['humidity']; 
+    const windSpeed = (response['wind']['speed']).toFixed(2);
 
-     todayDisplay.append($('<h1>').text(`${cityName} (${currentDate})`))
-     todayDisplay.append($('<p>').text(''))
+    iconURL = `http://openweathermap.org/img/w/${weatherIcon}.png`;
+
+    let todayTitle = $('<h1>').text(`${cityName} (${currentDate})`)
+    todayTitle.append($('<img>').attr('src', iconURL))
+     todayDisplay.append(todayTitle);
+     todayDisplay.append($('<p>').html(`<span>Temperature:</span> ${temperature}°C`));
+     todayDisplay.append($('<p>').html(`<span>Humidity:</span> ${humidity}`));
+     todayDisplay.append($('<p>').html(`<span>Wind Speed:</span> ${windSpeed}mph`));
     })
 }
 
@@ -38,13 +47,12 @@ const forecastFunc = (lat, lon) => {
 // create button
 const createBtnFun = () => {}
 
-// get latitude/longdidtude. 
+// get latitude/longidtude. 
 
 const buildQueryURLs = (todayWeatherFunc, forecastFunc) => {
-    const cityName = searchInput.val(); 
-   cityName.toLowerCase();
-   cityName[0].toUpperCase();
-   console.log(cityName)
+    let cityName = searchInput.val(); 
+   cityName = cityName.toLowerCase();
+   cityName = cityName[0].toUpperCase() + cityName.slice(1);
 
    const geoApiURL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey}`
 

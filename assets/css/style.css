@@ -31,4 +31,17 @@ header {
 
 /* Search History btns */
 /* Today's weather */
+#today {
+    border-radius: 10px;
+    padding: 10px;
+    padding-left: 25px;
+    background: linear-gradient(rgb(143, 143, 143), lightgray);
+}
+#today img {
+    height: 5rem;
+    width: 5rem;
+}
+#today span {
+    font-weight: bold;
+}
 /* forecast */

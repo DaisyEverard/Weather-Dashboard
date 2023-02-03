@@ -50,9 +50,15 @@ span {
     font-weight: bold;
 }
 /* forecast */
+#forecast {
+    height: 250px; 
+}
 #forecast .col {
     background-color: rgb(42, 42, 78);
     color: white; 
     border-radius: 10px;
     margin: 3px; 
+}
+.tomorrow {
+    background: linear-gradient(10deg, rgb(44, 44, 107), rgb(99 99 197));
 }

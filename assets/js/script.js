@@ -48,11 +48,10 @@ const forecastFunc = (lat, lon) => {
     }).then((response) => {
         console.log(response['list'])
         for (i = 7; i<response['list'].length; i += 8) {
-            console.log(i); 
             // set necessary data points to constants
             const dataSet = response['list'][i]
-            const date = moment(dataSet['dt'], 'unix').format('dddd Do');
-            const icon = dataSet['weather']['icon']; 
+            let date = moment(dataSet['dt_txt'], 'YYYY-MM-DD HH:mm:ss').format('dddd Do');
+            const icon = dataSet['weather'][0]['icon']; 
             const temperature = dataSet['main']['temp'];
             const windSpeed = dataSet['wind']['speed']; 
             const humidity = dataSet['main']['humidity'];
@@ -60,14 +59,19 @@ const forecastFunc = (lat, lon) => {
                 // build url for weather icon from code in response
             iconURL = `http://openweathermap.org/img/w/${icon}.png`;
        
-            // add new data to page
-            let newCol = $(`<div class="col col-xs-12 col-md-6 col-lg-2 flex-col"></div>`);
+            // set up 5 day boxes
+            let newCol; 
+            if (i !== 7) {
+                newCol = $(`<div class="col col-xs-12 col-md-5 col-lg-2"></div>`); 
+            } else {
+                newCol = $(`<div class="col col-xs-12 col-md-10 col-lg-3 tomorrow"></div>`);
+                date = 'Tomorrow';
+            }
 
-            console.log(newCol)
+            // add new data to page
             let title = $('<h4>').text(date);
-            console.log(title)
-            title.append('<img>').attr('src', iconURL);
-            console.log(title); 
+            let img = $('<img>').attr('src', iconURL)
+            title.append(img); 
 
             newCol.append(title);
             newCol.append($('<p>').html(`<span>Temperature:</span> ${temperature}°C`));

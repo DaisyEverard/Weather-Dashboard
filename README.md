@@ -31,11 +31,11 @@ SO THAT I can plan a trip accordingly
     * The temperature
     * The humidity
     * The wind speed -->
-  * When a user view future weather conditions for that city they are presented with a 5-day forecast that displays:
+  <!-- * When a user view future weather conditions for that city they are presented with a 5-day forecast that displays:
     * The date - stored in unix, or with dt_txt. has lots of times.  
     * An icon representation of weather conditions
     * The temperature
-    * The humidity
+    * The humidity -->
   * When a user click on a city in the search history they are again presented with current and future conditions for that city
  * use localStorage
 

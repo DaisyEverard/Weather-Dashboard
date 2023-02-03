@@ -52,7 +52,7 @@ const forecastFunc = (lat, lon) => {
             const dataSet = response['list'][i]
             let date = moment(dataSet['dt_txt'], 'YYYY-MM-DD HH:mm:ss').format('dddd Do');
             const icon = dataSet['weather'][0]['icon']; 
-            const temperature = dataSet['main']['temp'];
+            const temperature = (dataSet['main']['temp'] - 273.1).toFixed(2);
             const windSpeed = dataSet['wind']['speed']; 
             const humidity = dataSet['main']['humidity'];
 
@@ -69,7 +69,7 @@ const forecastFunc = (lat, lon) => {
             }
 
             // add new data to page
-            let title = $('<h4>').text(date);
+            let title = $('<h5>').text(date);
             let img = $('<img>').attr('src', iconURL)
             title.append(img); 
 
@@ -161,9 +161,11 @@ searchForm.on('submit', (event) => {
     searchInput.val(''); 
 })
 
-// button on click
+// city button on click
 historyDisplay.on('click', (event) => {
     let btn = $(event.target)
     let city = btn.attr('data-city')
     buildQueryURLs(todayWeatherFunc, forecastFunc, city)
 })
+
+// clear button on click

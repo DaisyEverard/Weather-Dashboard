@@ -1,17 +1,24 @@
-  var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png"
-
- * move recent search to top? 
-
 # Weather Dashboard
+
+## Link to site
+
+## Preview
+
+<p align="center">
+  <img src="./assets/images/preview.png" width="700" alt="screenshot of site">
+</p>
 
 ## Overview
 
-A dashboard where you can search for a city and see the current weather conditions, and look forward for the next 5 days
+A dashboard where you can search for a city and see the current weather conditions, and forecast for the next 5 days
 
 ## Features
 
 - Seach bar for desired city
-- History buttons showing up to 10 recently searched cities
+- clear button to remove history buttons and remove local storage item
+- History buttons showing 10 most recently searched cities
+- If city searched already in buttons, that button moves to most recent
+- When button clicked, that button moves to most recent
 - Box for today's weather with: 
     - Today's date
     - Icon to represent the weather
@@ -25,4 +32,8 @@ A dashboard where you can search for a city and see the current weather conditio
     - Wind Speed
     - Humidity
 
-- Tomorrow box has unique title 'tomorrow' different colour, and larger size on most screens. 
+- Tomorrow box has unique title 'tomorrow', different colour, and larger size on most screens. 
+
+## License
+
+MIT License

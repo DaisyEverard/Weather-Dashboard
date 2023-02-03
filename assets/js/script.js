@@ -108,26 +108,25 @@ const newStorageFunc = (searchTerm) => {
         // standardise capitals
         searchTerm = searchTerm.toLowerCase();
         searchTerm = searchTerm[0].toUpperCase() + searchTerm.slice(1);
-        // prevent duplicate buttons
-        let duplicateCount = 0;
-        searchHistory.forEach((item) => {
-            if (item !== searchTerm) {
-                return;
-            } else {
-                duplicateCount ++; 
+        // prevent duplicate buttons.
+        let duplicateIndex = 'nan';
+        searchHistory.forEach((item, i) => {
+            if (item === searchTerm) {
+                // find where duplicate is
+                duplicateIndex = i;
             }
         }) 
-        if (duplicateCount !== 0) {
-            return;
-        } else {
+        // move remove button so new one can go to top
+        if (duplicateIndex !== 'nan') {
+           searchHistory.splice(duplicateIndex, 1); 
+        }
              // max of 10 buttons
         if(searchHistory.length >= 10) {
             // remove oldest button, make room for new one 
                 searchHistory.shift(); 
             }
             searchHistory.push(searchTerm); 
-            localStorage.setItem('searched-cities', JSON.stringify(searchHistory));
-        }     
+            localStorage.setItem('searched-cities', JSON.stringify(searchHistory));   
         } else {
             let newHistory = [];
             newHistory.push(searchTerm);
@@ -167,7 +166,9 @@ searchForm.on('submit', (event) => {
 historyDisplay.on('click', (event) => {
     let btn = $(event.target)
     let city = btn.attr('data-city')
-    buildQueryURLs(todayWeatherFunc, forecastFunc, city)
+    buildQueryURLs(todayWeatherFunc, forecastFunc, city);
+    newStorageFunc(city);
+    storedBtnFunc();
 })
 
 // clear button on click

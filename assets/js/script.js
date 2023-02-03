@@ -155,10 +155,12 @@ storedBtnFunc();
 searchForm.on('submit', (event) => {
     event.preventDefault(); 
     let cityName = searchInput.val(); 
+    if (cityName) {
     buildQueryURLs(todayWeatherFunc, forecastFunc, cityName); 
     newStorageFunc(cityName); 
     storedBtnFunc();
     searchInput.val(''); 
+    }
 })
 
 // city button on click
@@ -169,3 +171,8 @@ historyDisplay.on('click', (event) => {
 })
 
 // clear button on click
+const clearBtn = $('#clear-btn')
+clearBtn.on('click', () => {
+    historyDisplay.empty();
+    localStorage.removeItem('searched-cities');
+})

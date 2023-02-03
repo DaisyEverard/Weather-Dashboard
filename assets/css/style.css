@@ -33,7 +33,7 @@ div.form-inline, .input-group-append  {
 
 /* Search History btns */
 #history button {
-    margin: 5px, auto; 
+    margin-top: 5px; 
     width: 100%;
 }
 /* Today's weather */

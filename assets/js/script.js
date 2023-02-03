@@ -101,21 +101,51 @@ const buildQueryURLs = (todayWeatherFunc, forecastFunc) => {
    })
 }
 
-// create button
-const createBtnFun = (searchTerm) => {
+// create new button
+const newBtnFunc = (searchTerm) => {
+    // create new button
     let newBtn = $('<button>').text(searchTerm); 
     newBtn.attr('data-city', searchTerm);
     newBtn.attr('class', 'btn btn-secondary'); 
-    localStorage.setItem(searchTerm, searchTerm);
-    
     $('#history').prepend(newBtn); 
+
+    // add new city to local storage
+    let searchHistory = JSON.parse(localStorage.getItem('searched-cities'));
+    if (searchHistory) { 
+        // max of 10 buttons
+        if(searchHistory.length >= 10) {
+        // remove oldest button, make room for new one 
+            searchHistory.shift(); 
+        }
+        searchHistory.push(searchTerm); 
+        localStorage.setItem('searched-cities', JSON.stringify(searchHistory));
+    } else {
+        let newHistory = [];
+        newHistory.push(searchTerm);
+        localStorage.setItem('searched-cities', JSON.stringify(newHistory));
+    }
+
 }
+
+// display buttons from stored data
+const storedBtnFunc = () => {
+    let searchHistory = JSON.parse(localStorage.getItem('searched-cities'));
+    console.log(searchHistory);
+    $('#history').empty(); 
+    searchHistory.forEach((item) => {
+        let newBtn = $('<button>').text(item);
+        newBtn.attr('class', 'btn btn-secondary'); 
+        $('#history').prepend(newBtn); 
+    })
+}
+// display history buttons on page load
+storedBtnFunc(); 
 
 // call on submitting search
 searchForm.on('submit', (event) => {
     event.preventDefault()
     buildQueryURLs(todayWeatherFunc, forecastFunc); 
-    createBtnFun(searchInput.val())
+    newBtnFunc(searchInput.val()); 
     searchInput.val(''); 
 })
 

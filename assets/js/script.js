@@ -1,9 +1,10 @@
 
 const searchInput = $('#search-input'); 
-const searchForm = $('#search-form')
+const searchForm = $('#search-form');
 const submitBtn = $('#search-button');
+const historyDisplay = $('#history')
 const todayDisplay = $('#today');
-const forecastRow = $('#forecast')
+const forecastRow = $('#forecast');
 
 const apiKey = 'f91b1fdab67a24d5aa4a8e66dc04f5c1'
 
@@ -46,7 +47,6 @@ const forecastFunc = (lat, lon) => {
         url: forecastURL,
         method: 'GET'
     }).then((response) => {
-        console.log(response['list'])
         for (i = 7; i<response['list'].length; i += 8) {
             // set necessary data points to constants
             const dataSet = response['list'][i]
@@ -83,8 +83,7 @@ const forecastFunc = (lat, lon) => {
 }
 
 // get latitude/longidtudes, call today and forecast funcs
-const buildQueryURLs = (todayWeatherFunc, forecastFunc) => {
-    let cityName = searchInput.val(); 
+const buildQueryURLs = (todayWeatherFunc, forecastFunc, cityName) => {
    cityName = cityName.toLowerCase();
    cityName = cityName[0].toUpperCase() + cityName.slice(1);
 
@@ -102,50 +101,69 @@ const buildQueryURLs = (todayWeatherFunc, forecastFunc) => {
 }
 
 // create new button
-const newBtnFunc = (searchTerm) => {
-    // create new button
-    let newBtn = $('<button>').text(searchTerm); 
-    newBtn.attr('data-city', searchTerm);
-    newBtn.attr('class', 'btn btn-secondary'); 
-    $('#history').prepend(newBtn); 
-
+const newStorageFunc = (searchTerm) => { 
     // add new city to local storage
     let searchHistory = JSON.parse(localStorage.getItem('searched-cities'));
-    if (searchHistory) { 
-        // max of 10 buttons
+    if (searchHistory) {
+        // standardise capitals
+        searchTerm = searchTerm.toLowerCase();
+        searchTerm = searchTerm[0].toUpperCase() + searchTerm.slice(1);
+        // prevent duplicate buttons
+        let duplicateCount = 0;
+        searchHistory.forEach((item) => {
+            if (item !== searchTerm) {
+                return;
+            } else {
+                duplicateCount ++; 
+            }
+        }) 
+        if (duplicateCount !== 0) {
+            return;
+        } else {
+             // max of 10 buttons
         if(searchHistory.length >= 10) {
-        // remove oldest button, make room for new one 
-            searchHistory.shift(); 
+            // remove oldest button, make room for new one 
+                searchHistory.shift(); 
+            }
+            searchHistory.push(searchTerm); 
+            localStorage.setItem('searched-cities', JSON.stringify(searchHistory));
+        }     
+        } else {
+            let newHistory = [];
+            newHistory.push(searchTerm);
+            localStorage.setItem('searched-cities', JSON.stringify(newHistory));
         }
-        searchHistory.push(searchTerm); 
-        localStorage.setItem('searched-cities', JSON.stringify(searchHistory));
-    } else {
-        let newHistory = [];
-        newHistory.push(searchTerm);
-        localStorage.setItem('searched-cities', JSON.stringify(newHistory));
-    }
-
-}
+        }
 
 // display buttons from stored data
 const storedBtnFunc = () => {
     let searchHistory = JSON.parse(localStorage.getItem('searched-cities'));
-    console.log(searchHistory);
-    $('#history').empty(); 
-    searchHistory.forEach((item) => {
-        let newBtn = $('<button>').text(item);
-        newBtn.attr('class', 'btn btn-secondary'); 
-        $('#history').prepend(newBtn); 
-    })
+    historyDisplay.empty(); 
+    if (searchHistory) {
+        searchHistory.forEach((item) => {
+            let newBtn = $('<button>').text(item);
+            newBtn.attr('data-city', item);
+            newBtn.attr('class', 'btn btn-secondary'); 
+            historyDisplay.prepend(newBtn); 
+        })
+    }
 }
 // display history buttons on page load
 storedBtnFunc(); 
 
 // call on submitting search
 searchForm.on('submit', (event) => {
-    event.preventDefault()
-    buildQueryURLs(todayWeatherFunc, forecastFunc); 
-    newBtnFunc(searchInput.val()); 
+    event.preventDefault(); 
+    let cityName = searchInput.val(); 
+    buildQueryURLs(todayWeatherFunc, forecastFunc, cityName); 
+    newStorageFunc(cityName); 
+    storedBtnFunc();
     searchInput.val(''); 
 })
 
+// button on click
+historyDisplay.on('click', (event) => {
+    let btn = $(event.target)
+    let city = btn.attr('data-city')
+    buildQueryURLs(todayWeatherFunc, forecastFunc, city)
+})

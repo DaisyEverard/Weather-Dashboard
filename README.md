@@ -37,7 +37,7 @@ SO THAT I can plan a trip accordingly
     * The temperature
     * The humidity -->
   * When a user click on a city in the search history they are again presented with current and future conditions for that city
- * use localStorage
+ * move recent search to top? 
 
 ## Mock-Up
 

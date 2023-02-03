@@ -81,8 +81,6 @@ const forecastFunc = (lat, lon) => {
         }
     })
 }
-// create button
-const createBtnFun = () => {}
 
 // get latitude/longidtudes, call today and forecast funcs
 const buildQueryURLs = (todayWeatherFunc, forecastFunc) => {
@@ -103,9 +101,21 @@ const buildQueryURLs = (todayWeatherFunc, forecastFunc) => {
    })
 }
 
+// create button
+const createBtnFun = (searchTerm) => {
+    let newBtn = $('<button>').text(searchTerm); 
+    newBtn.attr('data-city', searchTerm);
+    newBtn.attr('class', 'btn btn-secondary'); 
+    localStorage.setItem(searchTerm, searchTerm);
+    
+    $('#history').prepend(newBtn); 
+}
+
 // call on submitting search
 searchForm.on('submit', (event) => {
     event.preventDefault()
     buildQueryURLs(todayWeatherFunc, forecastFunc); 
+    createBtnFun(searchInput.val())
+    searchInput.val(''); 
 })
 

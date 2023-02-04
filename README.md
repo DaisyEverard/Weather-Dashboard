@@ -2,6 +2,8 @@
 
 ## Link to site
 
+https://daisyeverard.github.io/Weather-Dashboard/
+
 ## Preview
 
 <p align="center">

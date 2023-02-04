@@ -104,14 +104,25 @@ const buildQueryURLs = (todayWeatherFunc, forecastFunc, cityName) => {
 const newStorageFunc = (searchTerm) => { 
     // add new city to local storage
     let searchHistory = JSON.parse(localStorage.getItem('searched-cities'));
+ 
+    // standardise capitals
+    let searchWords = searchTerm.split(' ');
+    let processedWords = [];
+
+    searchWords.forEach((word) => {
+      let newWord = word.toLowerCase();
+      newWord = newWord[0].toUpperCase() + newWord.slice(1); 
+      processedWords.push(newWord);
+    })
+
+    console.log(`ProcessedWords ${processedWords}`)
+    let processedSearchTerm = processedWords.join(' '); 
+
     if (searchHistory) {
-        // standardise capitals
-        searchTerm = searchTerm.toLowerCase();
-        searchTerm = searchTerm[0].toUpperCase() + searchTerm.slice(1);
         // prevent duplicate buttons.
         let duplicateIndex = 'nan';
         searchHistory.forEach((item, i) => {
-            if (item === searchTerm) {
+            if (item == processedSearchTerm) {
                 // find where duplicate is
                 duplicateIndex = i;
             }
@@ -125,11 +136,11 @@ const newStorageFunc = (searchTerm) => {
             // remove oldest button, make room for new one 
                 searchHistory.shift(); 
             }
-            searchHistory.push(searchTerm); 
+            searchHistory.push(processedSearchTerm); 
             localStorage.setItem('searched-cities', JSON.stringify(searchHistory));   
         } else {
             let newHistory = [];
-            newHistory.push(searchTerm);
+            newHistory.push(processedSearchTerm);
             localStorage.setItem('searched-cities', JSON.stringify(newHistory));
         }
         }
@@ -153,7 +164,7 @@ storedBtnFunc();
 // call on submitting search
 searchForm.on('submit', (event) => {
     event.preventDefault(); 
-    let cityName = searchInput.val(); 
+    let cityName = searchInput.val().trim(); 
     if (cityName) {
     buildQueryURLs(todayWeatherFunc, forecastFunc, cityName); 
     newStorageFunc(cityName); 
@@ -166,9 +177,12 @@ searchForm.on('submit', (event) => {
 historyDisplay.on('click', (event) => {
     let btn = $(event.target)
     let city = btn.attr('data-city')
-    buildQueryURLs(todayWeatherFunc, forecastFunc, city);
+    // if statment catches clicks between buttons
+    if(city) {
+        buildQueryURLs(todayWeatherFunc, forecastFunc, city);
     newStorageFunc(city);
     storedBtnFunc();
+    }
 })
 
 // clear button on click

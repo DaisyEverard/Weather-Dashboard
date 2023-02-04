@@ -44,7 +44,7 @@ The structure of the functions was changed so one handled button display `stored
 The local storage could then be edited by splicing the index that matched the search, and sifting the new (same) term to the front of the storage array. 
 The button display was then updated to reflect the change
 
-#### In cities with more than one word, duplicated were still created
+#### In cities with more than one word, duplicates were still created
 
 The original loop to prevent duplicates standarized capitals by taking the whole word to lower case, the then first item to upper case. This means only first word was capitalised. 
 

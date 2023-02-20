@@ -36,6 +36,16 @@ A dashboard where you can search for a city and see the current weather conditio
 
 - Tomorrow box has unique title 'tomorrow', different colour, and larger size on most screens. 
 
+## Technologies
+
+- HTML
+- Bootstrap
+- FontAwesome
+- CSS
+- JavaScript
+- moment.js
+- jQuery
+
 ## Issues and Solutions
 
 #### Make most recent searches/clicks come to top of list

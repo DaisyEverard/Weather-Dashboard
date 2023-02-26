@@ -1,4 +1,5 @@
 # Weather Dashboard
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Link to site
 
@@ -13,6 +14,13 @@ https://daisyeverard.github.io/Weather-Dashboard/
 ## Overview
 
 A dashboard where you can search for a city and see the current weather conditions, and forecast for the next 5 days
+
+## Table of Contents
+
+- [Features](#features)
+- [Technologies](#technologies)
+- [Issues and Solutions](#issues-and-solutions)
+- [Contacts](#contacts)
 
 ## Features
 
@@ -59,6 +67,12 @@ The button display was then updated to reflect the change
 The original loop to prevent duplicates standarized capitals by taking the whole word to lower case, the then first item to upper case. This means only first word was capitalised. 
 
 A more complex word processing structure was adopted using an array with each word of the search term, processing them seperately, then joining again. The capitalizing process was also moved outside of the `if()` statement to verify if `history` already existed or not. 
+
+## Contacts
+
+- GitHub: [DaisyEverard](https://github.com/DaisyEverard)
+- LinkedIn: [daisy-everard](https://www.linkedin.com/in/daisy-everard/)
+- Email: msdeverard@gmail.com
 
 ## License
 
